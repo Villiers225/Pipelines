@@ -1,0 +1,312 @@
+
+<!doctype html>
+<html lang="en">
+<head>
+<meta name="theme-color" content="#0b0d10" />
+<meta property="og:type" content="website" />
+<meta property="og:title" content="UK Defence Procurement Playbook – Interactive" />
+<meta property="og:description" content="Shareable, single-file guide to UK defence procurement routes with timelines, how-to steps, and legal links." />
+<meta name="twitter:card" content="summary" />
+
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>UK Defence Procurement Playbook – Interactive (Pro v2)</title>
+<style>
+  :root {
+    --bg: #0b0d10;
+    --panel: #12151a;
+    --ink: #e8ecf1;
+    --ink-dim: #b5bfca;
+    --accent: #7aa2ff;
+    --grid: #2a2f38;
+    --muted: #8a94a6;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
+    background: var(--bg);
+    color: var(--ink);
+    line-height: 1.55;
+  }
+  header {
+    padding: 24px 20px 8px;
+    border-bottom: 1px solid var(--grid);
+    background: linear-gradient(0deg, rgba(122,162,255,0.05), rgba(122,162,255,0.05)), var(--panel);
+    position: sticky; top: 0; z-index: 10;
+  }
+  h1 { margin: 0 0 6px; font-size: 24px; }
+  .sub { color: var(--muted); font-size: 14px; }
+  .wrap { max-width: 1200px; margin: 0 auto; }
+  .controls { display: grid; grid-template-columns: 1fr auto auto auto; gap: 10px; margin: 14px 0 8px; }
+  .control { background: var(--panel); border: 1px solid var(--grid); border-radius: 12px; padding: 10px 12px; color: var(--ink); width: 100%; }
+  .btn { display: inline-flex; align-items: center; gap: 8px; padding: 10px 12px; border-radius: 12px; border: 1px solid var(--grid); background: var(--panel); color: var(--ink); text-decoration: none; cursor: pointer; }
+  main { padding: 18px 20px 40px; }
+  section { margin: 22px 0; }
+  .card { background: var(--panel); border: 1px solid var(--grid); border-radius: 16px; padding: 16px; }
+  .muted { color: var(--ink-dim); }
+  .legend { display:flex; flex-wrap:wrap; gap: 8px; margin-top: 8px; color: var(--ink-dim); font-size: 12px; }
+  .chip { display:flex; align-items:center; gap:8px; }
+  .chip .sw { width:14px; height:10px; border-radius:3px; background:#9db2ff; }
+  .chip .sw.warn { background:#f2b65b; }
+  .chip .sw.ok { background:#9df4c3; }
+  #gantt-container { overflow-x: auto; padding-bottom: 10px; }
+  #gantt { width: 100%; min-height: 560px; }
+  .bar { fill-opacity: 0.9; rx: 6; ry: 6; stroke: rgba(255,255,255,0.08); stroke-width: 1; }
+  .grid-line { stroke: var(--grid); stroke-width: 1; }
+  .axis-label { fill: var(--ink-dim); font-size: 10px; }
+  .labelBox { font-size: 12px; color: var(--ink); line-height: 1.25; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+  table { width: 100%; border-collapse: collapse; }
+  th, td { border-bottom: 1px solid var(--grid); padding: 10px 8px; text-align: left; vertical-align: top; font-size: 14px; }
+  th { position: sticky; top: 0; background: var(--panel); z-index: 1; }
+  tbody tr:hover { background: rgba(122,162,255,0.06); }
+  details { border:1px solid var(--grid); background:#0f1530; border-radius:12px; padding:10px 12px; margin:12px 0; }
+  summary { cursor:pointer; font-weight:600; }
+  .note { font-size:12px; color: var(--ink-dim); margin-top: 6px; }
+  .gloss li { margin-bottom: 6px; }
+  .match { outline: 2px solid var(--accent); outline-offset: 2px; }
+</style>
+</head>
+<body>
+  <header>
+    <div class="wrap">
+      <h1>UK Defence Procurement Playbook</h1>
+      <div class="sub">Interactive overview of routes, how to apply, indicative timelines and the relevant law. Built as a single, shareable file.</div>
+      <div class="controls">
+        <input id="search" class="control" placeholder="Search pipelines, stages, requirements or legal sources…" />
+        <a class="btn" id="dlSummary" download="uk_defence_procurement_summary.csv" href="data:text/csv;charset=utf-8,Pipeline%2CIndicative%20pre%E2%80%91award%20%28weeks%29%2CIndicative%20total%20to%20first%20delivery%20%28weeks%29%0D%0AOpen%20procedure%20%28single%E2%80%91stage%20competition%29%2C21%2C21%0D%0ACompetitive%20flexible%20procedure%20%28designed%20multi%E2%80%91stage%20competition%29%2C24%2C24%0D%0AFrameworks%20and%20Dynamic%20Markets%2C13%2C21%0D%0ADirect%20awards%20and%20Exempted%20contracts%20%28defence%20and%20national%20security%29%2C14%2C14%0D%0ABelow%E2%80%91threshold%20procurement%20%28United%20Kingdom%29%2C9%2C9%0D%0ASingle%E2%80%91source%20defence%20contracts%20%28Qualifying%20Defence%20Contract%20or%20Qualifying%20Sub%E2%80%91contract%29%2C30%2C30%0D%0ADefence%20and%20Security%20Accelerator%20%E2%80%93%20Open%20Call%20and%20themed%20competitions%2C11%2C11%0D%0ADefence%20Science%20and%20Technology%20Laboratory%20%E2%80%93%20SERAPIS%20and%20Research%20Cloud%2C10%2C12%0D%0AUrgent%20capability%20acquisition%20%28accelerated%20/%20urgent%20operational%29%2C5%2C11%0D%0ANATO%20Support%20and%20Procurement%20Agency%20supplier%20route%2C11%2C11%0D%0AUnited%20States%20Foreign%20Military%20Sales%20%28participation%20via%20primes%29%2C26%2C32%0D%0AUnited%20States%20%E2%80%98Other%20Transaction%20Authority%E2%80%99%20consortia%20%28indirect%20route%20for%20research%20and%20prototyping%29%2C25%2C25%0D%0A%22Crown%20Commercial%20Service%20%E2%80%93%20Technology%20Products%20%26%20Associated%20Services%202%20%28TePAS%202%2C%20RM6098%29%22%2C10%2C13%0D%0A%22Crown%20Commercial%20Service%20%E2%80%93%20Digital%20and%20IT%20Professional%20Services%20%28DIPS%2C%20RM6249%2C%20MOD%E2%80%91only%29%22%2C10%2C13%0D%0ACrown%20Commercial%20Service%20%E2%80%93%20G%E2%80%91Cloud%20%28RM1557.14%20and%20RM1557.15%29%2C12%2C12%0D%0ACrown%20Commercial%20Service%20%E2%80%93%20Digital%20Specialists%20and%20Programmes%20%28RM6263%29%2C13%2C13%0D%0ACrown%20Commercial%20Service%20%E2%80%93%20Network%20Services%203%20%28RM6116%29%2C10%2C14%0D%0AInnovate%20UK%20%E2%80%98Contracts%20for%20Innovation%E2%80%99%20%28formerly%20Small%20Business%20Research%20Initiative%29%2C18%2C18%0D%0AMinistry%20of%20Defence%20Framework%20Library%20%28overview%20and%20access%20to%20lists%29%2C12%2C12%0D%0A">Download summary CSV</a>
+        <a class="btn" id="dlStages" download="uk_defence_procurement_stages.csv" href="data:text/csv;charset=utf-8,Pipeline%2CStage%2CWeeks%20%28indicative%29%0D%0AOpen%20procedure%20%28single%E2%80%91stage%20competition%29%2COptional%20pre%E2%80%91market%20engagement%2C4%0D%0AOpen%20procedure%20%28single%E2%80%91stage%20competition%29%2CTender%20notice%20and%20documents%2C3%0D%0AOpen%20procedure%20%28single%E2%80%91stage%20competition%29%2CTender%20open%20%28indicatively%20%E2%89%A5%2025%20days%29%2C4%0D%0AOpen%20procedure%20%28single%E2%80%91stage%20competition%29%2CEvaluation%20and%20moderation%2C4%0D%0AOpen%20procedure%20%28single%E2%80%91stage%20competition%29%2CStandstill%20%28%E2%89%A5%208%20working%20days%29%2C2%0D%0AOpen%20procedure%20%28single%E2%80%91stage%20competition%29%2CAward%20and%20contract%20details%20notice%2C4%0D%0AOpen%20procedure%20%28single%E2%80%91stage%20competition%29%2C%E2%80%94TOTAL%E2%80%94%2C21%0D%0ACompetitive%20flexible%20procedure%20%28designed%20multi%E2%80%91stage%20competition%29%2CMarket%20engagement%20%28optional%29%2C4%0D%0ACompetitive%20flexible%20procedure%20%28designed%20multi%E2%80%91stage%20competition%29%2CSelection%20to%20long%E2%80%91list%2C3%0D%0ACompetitive%20flexible%20procedure%20%28designed%20multi%E2%80%91stage%20competition%29%2CDialogue%20or%20negotiation%2C8%0D%0ACompetitive%20flexible%20procedure%20%28designed%20multi%E2%80%91stage%20competition%29%2CShort%E2%80%91list%20and%20final%20tenders%2C4%0D%0ACompetitive%20flexible%20procedure%20%28designed%20multi%E2%80%91stage%20competition%29%2CStandstill%20%28%E2%89%A5%208%20working%20days%29%2C2%0D%0ACompetitive%20flexible%20procedure%20%28designed%20multi%E2%80%91stage%20competition%29%2CAward%20and%20notices%2C3%0D%0ACompetitive%20flexible%20procedure%20%28designed%20multi%E2%80%91stage%20competition%29%2C%E2%80%94TOTAL%E2%80%94%2C24%0D%0AFrameworks%20and%20Dynamic%20Markets%2CQualification%20to%20framework%20or%20market%2C4%0D%0AFrameworks%20and%20Dynamic%20Markets%2CMini%E2%80%91competitions%20or%20calls%2C6%0D%0AFrameworks%20and%20Dynamic%20Markets%2CAward%20and%20call%E2%80%91off%2C3%0D%0AFrameworks%20and%20Dynamic%20Markets%2CDelivery%20and%20performance%2C8%0D%0AFrameworks%20and%20Dynamic%20Markets%2C%E2%80%94TOTAL%E2%80%94%2C21%0D%0ADirect%20awards%20and%20Exempted%20contracts%20%28defence%20and%20national%20security%29%2C%22Justification%20%28defence%2C%20urgency%2C%20or%20single%20supplier%29%22%2C4%0D%0ADirect%20awards%20and%20Exempted%20contracts%20%28defence%20and%20national%20security%29%2CRecord%E2%80%91keeping%20and%20approvals%2C4%0D%0ADirect%20awards%20and%20Exempted%20contracts%20%28defence%20and%20national%20security%29%2CContract%20Award%20Notice%20%28unless%20exempt%29%2C2%0D%0ADirect%20awards%20and%20Exempted%20contracts%20%28defence%20and%20national%20security%29%2CStandstill%20%28may%20not%20apply%20in%20limited%20cases%29%2C2%0D%0ADirect%20awards%20and%20Exempted%20contracts%20%28defence%20and%20national%20security%29%2CAward%20and%20disclosure%20duties%2C2%0D%0ADirect%20awards%20and%20Exempted%20contracts%20%28defence%20and%20national%20security%29%2C%E2%80%94TOTAL%E2%80%94%2C14%0D%0ABelow%E2%80%91threshold%20procurement%20%28United%20Kingdom%29%2C%22Decide%20route%20%28quotes%2C%20direct%20award%2C%20or%20advertise%29%22%2C2%0D%0ABelow%E2%80%91threshold%20procurement%20%28United%20Kingdom%29%2CIf%20advertising%3A%20publish%20below%E2%80%91threshold%20tender%20notice%2C1%0D%0ABelow%E2%80%91threshold%20procurement%20%28United%20Kingdom%29%2CTender%20window%20%28buyer%E2%80%91set%29%2C3%0D%0ABelow%E2%80%91threshold%20procurement%20%28United%20Kingdom%29%2CEvaluation%20and%20award%2C2%0D%0ABelow%E2%80%91threshold%20procurement%20%28United%20Kingdom%29%2CPublish%20below%E2%80%91threshold%20contract%20details%20notice%2C1%0D%0ABelow%E2%80%91threshold%20procurement%20%28United%20Kingdom%29%2C%E2%80%94TOTAL%E2%80%94%2C9%0D%0ASingle%E2%80%91source%20defence%20contracts%20%28Qualifying%20Defence%20Contract%20or%20Qualifying%20Sub%E2%80%91contract%29%2CConfirm%20scope%20%28QDC%20or%20QSC%29%2C2%0D%0ASingle%E2%80%91source%20defence%20contracts%20%28Qualifying%20Defence%20Contract%20or%20Qualifying%20Sub%E2%80%91contract%29%2CPricing%20method%20and%20Baseline%20Profit%20Rate%2C8%0D%0ASingle%E2%80%91source%20defence%20contracts%20%28Qualifying%20Defence%20Contract%20or%20Qualifying%20Sub%E2%80%91contract%29%2CPlace%20contract%20and%20initial%20reports%20%28Defence%20Contract%20Analysis%20and%20Reporting%20System%29%2C4%0D%0ASingle%E2%80%91source%20defence%20contracts%20%28Qualifying%20Defence%20Contract%20or%20Qualifying%20Sub%E2%80%91contract%29%2COngoing%20cost%20and%20performance%20reporting%2C12%0D%0ASingle%E2%80%91source%20defence%20contracts%20%28Qualifying%20Defence%20Contract%20or%20Qualifying%20Sub%E2%80%91contract%29%2CFinal%20price%20adjustment%20%28if%20applicable%29%2C4%0D%0ASingle%E2%80%91source%20defence%20contracts%20%28Qualifying%20Defence%20Contract%20or%20Qualifying%20Sub%E2%80%91contract%29%2C%E2%80%94TOTAL%E2%80%94%2C30%0D%0ADefence%20and%20Security%20Accelerator%20%E2%80%93%20Open%20Call%20and%20themed%20competitions%2CIdea%20shaping%20and%20pre%E2%80%91submission%2C2%0D%0ADefence%20and%20Security%20Accelerator%20%E2%80%93%20Open%20Call%20and%20themed%20competitions%2CSubmit%20online%20before%20cycle%20close%2C2%0D%0ADefence%20and%20Security%20Accelerator%20%E2%80%93%20Open%20Call%20and%20themed%20competitions%2CAssessment%20and%20feedback%2C4%0D%0ADefence%20and%20Security%20Accelerator%20%E2%80%93%20Open%20Call%20and%20themed%20competitions%2CContracting%20and%20project%20kick%E2%80%91off%2C3%0D%0ADefence%20and%20Security%20Accelerator%20%E2%80%93%20Open%20Call%20and%20themed%20competitions%2C%E2%80%94TOTAL%E2%80%94%2C11%0D%0ADefence%20Science%20and%20Technology%20Laboratory%20%E2%80%93%20SERAPIS%20and%20Research%20Cloud%2CQualify%20or%20on%E2%80%91ramp%20to%20supplier%20environment%2C3%0D%0ADefence%20Science%20and%20Technology%20Laboratory%20%E2%80%93%20SERAPIS%20and%20Research%20Cloud%2CMini%E2%80%91competitions%20and%20invitations%20to%20bid%2C4%0D%0ADefence%20Science%20and%20Technology%20Laboratory%20%E2%80%93%20SERAPIS%20and%20Research%20Cloud%2CEvaluation%20and%20award%2C3%0D%0ADefence%20Science%20and%20Technology%20Laboratory%20%E2%80%93%20SERAPIS%20and%20Research%20Cloud%2CMobilisation%2C2%0D%0ADefence%20Science%20and%20Technology%20Laboratory%20%E2%80%93%20SERAPIS%20and%20Research%20Cloud%2C%E2%80%94TOTAL%E2%80%94%2C12%0D%0AUrgent%20capability%20acquisition%20%28accelerated%20/%20urgent%20operational%29%2CRapid%20requirement%20and%20approvals%2C2%0D%0AUrgent%20capability%20acquisition%20%28accelerated%20/%20urgent%20operational%29%2CSourcing%20and%20negotiation%2C2%0D%0AUrgent%20capability%20acquisition%20%28accelerated%20/%20urgent%20operational%29%2CContract%20award%2C1%0D%0AUrgent%20capability%20acquisition%20%28accelerated%20/%20urgent%20operational%29%2CInitial%20delivery%20%28indicative%29%2C6%0D%0AUrgent%20capability%20acquisition%20%28accelerated%20/%20urgent%20operational%29%2C%E2%80%94TOTAL%E2%80%94%2C11%0D%0ANATO%20Support%20and%20Procurement%20Agency%20supplier%20route%2CRegister%20in%20the%20NATO%20Support%20and%20Procurement%20Agency%20Source%20File%2C4%0D%0ANATO%20Support%20and%20Procurement%20Agency%20supplier%20route%2Ce%E2%80%91Procurement%20account%20validation%2C1%0D%0ANATO%20Support%20and%20Procurement%20Agency%20supplier%20route%2CMonitor%20opportunities%20and%20submit%20bids%2C4%0D%0ANATO%20Support%20and%20Procurement%20Agency%20supplier%20route%2CAward%20and%20performance%2C2%0D%0ANATO%20Support%20and%20Procurement%20Agency%20supplier%20route%2C%E2%80%94TOTAL%E2%80%94%2C11%0D%0AUnited%20States%20Foreign%20Military%20Sales%20%28participation%20via%20primes%29%2CPartner%20engagement%20and%20requirement%2C4%0D%0AUnited%20States%20Foreign%20Military%20Sales%20%28participation%20via%20primes%29%2CLetter%20of%20Request%20%28Price%20and%20Availability%20or%20Letter%20of%20Offer%20and%20Acceptance%29%2C6%0D%0AUnited%20States%20Foreign%20Military%20Sales%20%28participation%20via%20primes%29%2CLetter%20of%20Offer%20and%20Acceptance%20development%20and%20notification%20%28if%20required%29%2C16%0D%0AUnited%20States%20Foreign%20Military%20Sales%20%28participation%20via%20primes%29%2CLetter%20of%20Offer%20and%20Acceptance%20acceptance%20and%20case%20implementation%2C6%0D%0AUnited%20States%20Foreign%20Military%20Sales%20%28participation%20via%20primes%29%2C%E2%80%94TOTAL%E2%80%94%2C32%0D%0AUnited%20States%20%E2%80%98Other%20Transaction%20Authority%E2%80%99%20consortia%20%28indirect%20route%20for%20research%20and%20prototyping%29%2CJoin%20a%20relevant%20consortium%20and%20meet%20membership%20requirements%2C3%0D%0AUnited%20States%20%E2%80%98Other%20Transaction%20Authority%E2%80%99%20consortia%20%28indirect%20route%20for%20research%20and%20prototyping%29%2CMonitor%20calls%20and%20submit%20white%20papers%20or%20proposals%2C4%0D%0AUnited%20States%20%E2%80%98Other%20Transaction%20Authority%E2%80%99%20consortia%20%28indirect%20route%20for%20research%20and%20prototyping%29%2C%22Down%E2%80%91select%2C%20negotiation%20and%20award%22%2C6%0D%0AUnited%20States%20%E2%80%98Other%20Transaction%20Authority%E2%80%99%20consortia%20%28indirect%20route%20for%20research%20and%20prototyping%29%2CPrototype%20execution%2C12%0D%0AUnited%20States%20%E2%80%98Other%20Transaction%20Authority%E2%80%99%20consortia%20%28indirect%20route%20for%20research%20and%20prototyping%29%2C%E2%80%94TOTAL%E2%80%94%2C25%0D%0A%22Crown%20Commercial%20Service%20%E2%80%93%20Technology%20Products%20%26%20Associated%20Services%202%20%28TePAS%202%2C%20RM6098%29%22%2CApply%20to%20framework%20%28when%20open%29%20or%20use%20as%20supplier%2C6%0D%0A%22Crown%20Commercial%20Service%20%E2%80%93%20Technology%20Products%20%26%20Associated%20Services%202%20%28TePAS%202%2C%20RM6098%29%22%2CMini%E2%80%91competition%20or%20catalogue%20call%E2%80%91off%2C4%0D%0A%22Crown%20Commercial%20Service%20%E2%80%93%20Technology%20Products%20%26%20Associated%20Services%202%20%28TePAS%202%2C%20RM6098%29%22%2CAward%20and%20mobilisation%2C3%0D%0A%22Crown%20Commercial%20Service%20%E2%80%93%20Technology%20Products%20%26%20Associated%20Services%202%20%28TePAS%202%2C%20RM6098%29%22%2C%E2%80%94TOTAL%E2%80%94%2C13%0D%0A%22Crown%20Commercial%20Service%20%E2%80%93%20Digital%20and%20IT%20Professional%20Services%20%28DIPS%2C%20RM6249%2C%20MOD%E2%80%91only%29%22%2CFramework%20membership%20%28supplier%29%20%E2%80%93%20when%20tendered%2C6%0D%0A%22Crown%20Commercial%20Service%20%E2%80%93%20Digital%20and%20IT%20Professional%20Services%20%28DIPS%2C%20RM6249%2C%20MOD%E2%80%91only%29%22%2CMini%E2%80%91competition%20%28MOD%20buyers%29%2C4%0D%0A%22Crown%20Commercial%20Service%20%E2%80%93%20Digital%20and%20IT%20Professional%20Services%20%28DIPS%2C%20RM6249%2C%20MOD%E2%80%91only%29%22%2CAward%20and%20mobilisation%2C3%0D%0A%22Crown%20Commercial%20Service%20%E2%80%93%20Digital%20and%20IT%20Professional%20Services%20%28DIPS%2C%20RM6249%2C%20MOD%E2%80%91only%29%22%2C%E2%80%94TOTAL%E2%80%94%2C13%0D%0ACrown%20Commercial%20Service%20%E2%80%93%20G%E2%80%91Cloud%20%28RM1557.14%20and%20RM1557.15%29%2CApply%20to%20framework%20iteration%20%28supplier%29%2C6%0D%0ACrown%20Commercial%20Service%20%E2%80%93%20G%E2%80%91Cloud%20%28RM1557.14%20and%20RM1557.15%29%2CList%20services%20in%20the%20catalogue%2C2%0D%0ACrown%20Commercial%20Service%20%E2%80%93%20G%E2%80%91Cloud%20%28RM1557.14%20and%20RM1557.15%29%2C%22Buyer%20runs%20search%2C%20evaluation%20and%20call%E2%80%91off%22%2C4%0D%0ACrown%20Commercial%20Service%20%E2%80%93%20G%E2%80%91Cloud%20%28RM1557.14%20and%20RM1557.15%29%2C%E2%80%94TOTAL%E2%80%94%2C12%0D%0ACrown%20Commercial%20Service%20%E2%80%93%20Digital%20Specialists%20and%20Programmes%20%28RM6263%29%2CSupplier%20application%20to%20framework%2C6%0D%0ACrown%20Commercial%20Service%20%E2%80%93%20Digital%20Specialists%20and%20Programmes%20%28RM6263%29%2CMini%E2%80%91competitions%20for%20roles%20and%20outcomes%2C4%0D%0ACrown%20Commercial%20Service%20%E2%80%93%20Digital%20Specialists%20and%20Programmes%20%28RM6263%29%2CAward%20and%20onboarding%2C3%0D%0ACrown%20Commercial%20Service%20%E2%80%93%20Digital%20Specialists%20and%20Programmes%20%28RM6263%29%2C%E2%80%94TOTAL%E2%80%94%2C13%0D%0ACrown%20Commercial%20Service%20%E2%80%93%20Network%20Services%203%20%28RM6116%29%2CSupplier%20application%20to%20framework%2C6%0D%0ACrown%20Commercial%20Service%20%E2%80%93%20Network%20Services%203%20%28RM6116%29%2CLot%E2%80%91based%20further%20competitions%20and%20direct%20awards%20%28where%20allowed%29%2C4%0D%0ACrown%20Commercial%20Service%20%E2%80%93%20Network%20Services%203%20%28RM6116%29%2CAward%20and%20implementation%2C4%0D%0ACrown%20Commercial%20Service%20%E2%80%93%20Network%20Services%203%20%28RM6116%29%2C%E2%80%94TOTAL%E2%80%94%2C14%0D%0AInnovate%20UK%20%E2%80%98Contracts%20for%20Innovation%E2%80%99%20%28formerly%20Small%20Business%20Research%20Initiative%29%2CCompetition%20opens%20and%20challenge%20published%2C2%0D%0AInnovate%20UK%20%E2%80%98Contracts%20for%20Innovation%E2%80%99%20%28formerly%20Small%20Business%20Research%20Initiative%29%2CPhase%201%20feasibility%20bids%2C4%0D%0AInnovate%20UK%20%E2%80%98Contracts%20for%20Innovation%E2%80%99%20%28formerly%20Small%20Business%20Research%20Initiative%29%2CPhase%202%20development%20%28if%20invited%29%2C12%0D%0AInnovate%20UK%20%E2%80%98Contracts%20for%20Innovation%E2%80%99%20%28formerly%20Small%20Business%20Research%20Initiative%29%2C%E2%80%94TOTAL%E2%80%94%2C18%0D%0AMinistry%20of%20Defence%20Framework%20Library%20%28overview%20and%20access%20to%20lists%29%2CIdentify%20applicable%20Ministry%20of%20Defence%20or%20Crown%20Commercial%20Service%20framework%2C2%0D%0AMinistry%20of%20Defence%20Framework%20Library%20%28overview%20and%20access%20to%20lists%29%2CQualify%20or%20join%20where%20applicable%2C6%0D%0AMinistry%20of%20Defence%20Framework%20Library%20%28overview%20and%20access%20to%20lists%29%2CRun%20call%E2%80%91offs%20/%20mini%E2%80%91competitions%2C4%0D%0AMinistry%20of%20Defence%20Framework%20Library%20%28overview%20and%20access%20to%20lists%29%2C%E2%80%94TOTAL%E2%80%94%2C12%0D%0A">Download stages CSV</a>
+        <a class="btn" href="#bibliography">Go to bibliography</a>
+      </div>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <section class="card">
+      <h2 style="margin:0 0 12px;font-size:18px;">Gantt‑style timelines (weeks)</h2>
+      <div class="legend">
+        <div class="chip"><span class="sw"></span>Stage</div>
+        <div class="chip"><span class="sw warn"></span>Standstill or statutory step</div>
+        <div class="chip"><span class="sw ok"></span>Minimum window (indicative)</div>
+      </div>
+      <div id="gantt-container">
+        <svg id="gantt" role="img" aria-label="Gantt timelines in weeks"></svg>
+      </div>
+      <div class="note">Hover bars for details. Click a pipeline name in the table to spotlight it.</div>
+    </section>
+
+    <section class="card">
+      <h2 style="margin:0 0 12px;font-size:18px;">Pipelines – summary, how to apply and legal hooks</h2>
+      <div style="overflow:auto; max-height: 560px;">
+        <table id="summaryTable">
+          <thead>
+            <tr>
+              <th style="width:26%">Pipeline</th>
+              <th style="width:12%">Pre‑award (weeks)</th>
+              <th style="width:14%">Total to first delivery (weeks)</th>
+              <th>Key requirements & how to apply</th>
+              <th style="width:24%">Relevant law & guidance</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+      <div class="note">Acronyms are avoided in the body where possible; see glossary below for definitions.</div>
+    </section>
+
+    <section class="card" id="glossary">
+      <h2 style="margin:0 0 12px;font-size:18px;">Glossary (acronyms used on this page)</h2>
+      <ul class="gloss">
+        <li><strong>Find a Tender service (FTS)</strong> – The United Kingdom platform for regulated procurement notices.</li>
+        <li><strong>Contracts Finder</strong> – The central United Kingdom portal for opportunities above £12,000.</li>
+        <li><strong>Defence Sourcing Portal (DSP)</strong> – The Ministry of Defence e‑sourcing system.</li>
+        <li><strong>Single Source Regulations Office (SSRO)</strong> – Regulator for qualifying non‑competitive defence contracts.</li>
+        <li><strong>Qualifying Defence Contract (QDC)</strong> / <strong>Qualifying Sub‑contract (QSC)</strong> – Contracts subject to the single‑source framework.</li>
+        <li><strong>Defence Contract Analysis and Reporting System (DefCARS)</strong> – Reporting system for SSRO contracts.</li>
+        <li><strong>Crown Commercial Service (CCS)</strong> – Central buying body that lets cross‑government frameworks (for example RM‑coded agreements).</li>
+        <li><strong>RM code</strong> – Crown Commercial Service framework identifier (for example RM6098).</li>
+        <li><strong>North Atlantic Treaty Organization (NATO)</strong> – Intergovernmental military alliance.</li>
+        <li><strong>International Traffic in Arms Regulations (ITAR)</strong> – United States export control rules for defence items and technical data.</li>
+        <li><strong>Other Transaction Authority (OTA)</strong> – United States authority for research and prototype agreements outside standard procurement statutes.</li>
+      </ul>
+    </section>
+
+    <section class="card" id="bibliography">
+      <h2 style="margin:0 0 12px;font-size:18px;">Bibliography & landing pages</h2>
+      <ul id="bibList" class="muted"></ul>
+    </section>
+  </main>
+
+<script>
+  const DATA = [{"pipeline": "Open procedure (single‑stage competition)", "key": "pa23_open", "stages": [{"name": "Optional pre‑market engagement", "weeks": 4}, {"name": "Tender notice and documents", "weeks": 3}, {"name": "Tender open (indicatively ≥ 25 days)", "weeks": 4}, {"name": "Evaluation and moderation", "weeks": 4}, {"name": "Standstill (≥ 8 working days)", "weeks": 2}, {"name": "Award and contract details notice", "weeks": 4}], "requirements": ["Publication on the Find a Tender service and, for central government, Contracts Finder.", "Submission via the buyer’s e‑sourcing system (for the Ministry of Defence, usually the Defence Sourcing Portal).", "Cyber assurance appropriate to risk and Defence Cyber Protection Partnership assessment where applicable.", "Security clearances and export control compliance where required."], "how_to": ["Create free alerts on the Find a Tender service and Contracts Finder.", "Register on the Defence Sourcing Portal and any other named e‑sourcing system in the notice.", "Download all documents, raise clarification questions within the window, and submit a compliant tender before the deadline."], "legal": [{"title": "Procurement Act 2023 (primary legislation)", "url": "https://www.legislation.gov.uk/ukpga/2023/54/contents"}, {"title": "The Procurement Regulations 2024 (SI 2024/692)", "url": "https://www.legislation.gov.uk/uksi/2024/692/contents"}, {"title": "Competitive tendering procedures (Cabinet Office guidance)", "url": "https://www.gov.uk/government/publications/procurement-act-2023-guidance-documents-define-phase/competitive-tendering-procedures-html"}, {"title": "Contract Award Notices and standstill", "url": "https://www.gov.uk/government/publications/procurement-act-2023-guidance-documents-procure-phase/guidance-contract-award-notices-and-standstill-html"}]}, {"pipeline": "Competitive flexible procedure (designed multi‑stage competition)", "key": "pa23_cfp", "stages": [{"name": "Market engagement (optional)", "weeks": 4}, {"name": "Selection to long‑list", "weeks": 3}, {"name": "Dialogue or negotiation", "weeks": 8}, {"name": "Short‑list and final tenders", "weeks": 4}, {"name": "Standstill (≥ 8 working days)", "weeks": 2}, {"name": "Award and notices", "weeks": 3}], "requirements": ["Stages and evaluation approach described in the tender notice and documents.", "Equal treatment and transparency across dialogue and negotiation rounds.", "Security, export control and cyber requirements where applicable."], "how_to": ["Register interest via the tender notice and follow the staged submissions.", "Prepare for interactive sessions, solution development, and best‑and‑final offers as specified."], "legal": [{"title": "Competitive tendering procedures (Cabinet Office guidance)", "url": "https://www.gov.uk/government/publications/procurement-act-2023-guidance-documents-define-phase/competitive-tendering-procedures-html"}, {"title": "Procurement Act 2023 (primary legislation)", "url": "https://www.legislation.gov.uk/ukpga/2023/54/contents"}]}, {"pipeline": "Frameworks and Dynamic Markets", "key": "pa23_frameworks", "stages": [{"name": "Qualification to framework or market", "weeks": 4}, {"name": "Mini‑competitions or calls", "weeks": 6}, {"name": "Award and call‑off", "weeks": 3}, {"name": "Delivery and performance", "weeks": 8}], "requirements": ["Qualification against framework or dynamic market entry criteria.", "Compliance with mini‑competition rules and call‑off terms.", "Assurance, security, and export controls as specified per call."], "how_to": ["Apply to join the framework or dynamic market when open, via the named portal.", "Monitor call‑offs and mini‑competitions; respond per the stated rules."], "legal": [{"title": "Dynamic markets (Cabinet Office guidance)", "url": "https://www.gov.uk/government/publications/procurement-act-2023-guidance-documents-define-phase/guidance-dynamic-markets-html"}, {"title": "Guidance collection – Procurement Act 2023", "url": "https://www.gov.uk/government/collections/procurement-act-2023-guidance-documents"}]}, {"pipeline": "Direct awards and Exempted contracts (defence and national security)", "key": "pa23_direct", "stages": [{"name": "Justification (defence, urgency, or single supplier)", "weeks": 4}, {"name": "Record‑keeping and approvals", "weeks": 4}, {"name": "Contract Award Notice (unless exempt)", "weeks": 2}, {"name": "Standstill (may not apply in limited cases)", "weeks": 2}, {"name": "Award and disclosure duties", "weeks": 2}], "requirements": ["Direct award ground in the Act (for example Schedule 5) or exemption (for example Schedule 2 national security).", "Documentation of justification and internal approvals; publication of notices as required."], "how_to": ["Work with the contracting authority to evidence the applicable ground or exemption.", "Prepare for transparency notices and potential voluntary standstill."], "legal": [{"title": "Schedule 5 – direct award justifications", "url": "https://www.legislation.gov.uk/ukpga/2023/54/schedule/5"}, {"title": "Direct award guidance (Cabinet Office)", "url": "https://www.gov.uk/government/publications/procurement-act-2023-guidance-documents-define-phase/direct-award-html"}, {"title": "Schedule 2 – exempted contracts", "url": "https://www.legislation.gov.uk/ukpga/2023/54/schedule/2"}, {"title": "Exempted contracts guidance", "url": "https://www.gov.uk/government/publications/procurement-act-2023-guidance-documents-plan-phase/guidance-exempted-contracts-html--2"}]}, {"pipeline": "Below‑threshold procurement (United Kingdom)", "key": "pa23_below", "stages": [{"name": "Decide route (quotes, direct award, or advertise)", "weeks": 2}, {"name": "If advertising: publish below‑threshold tender notice", "weeks": 1}, {"name": "Tender window (buyer‑set)", "weeks": 3}, {"name": "Evaluation and award", "weeks": 2}, {"name": "Publish below‑threshold contract details notice", "weeks": 1}], "requirements": ["Applies to ‘regulated below‑threshold contracts’ as defined by section 84 of the Procurement Act 2023.", "No separate pre‑qualification stage (section 85 restriction).", "If advertising a notifiable below‑threshold contract, publish a below‑threshold tender notice first; publish a contract details notice after award.", "Prompt‑payment implied terms apply."], "how_to": ["For central government: publish notices for contracts at or above £12,000 including VAT; for other authorities, at or above £30,000 including VAT.", "Where reserving for United Kingdom small and medium‑sized enterprises or locality, follow the published policy and guidance."], "legal": [{"title": "Below‑threshold contracts (Cabinet Office guidance)", "url": "https://www.gov.uk/government/publications/procurement-act-2023-guidance-documents-define-phase/guidance-below-threshold-contracts-html"}, {"title": "Guide to reserving below‑threshold procurements (PPN)", "url": "https://assets.publishing.service.gov.uk/media/67af5f3e6e6c8d18118ace43/PPN_005_Guide_to_reserving_below_threshold.pdf"}, {"title": "Procurement Act 2023 – guidance collection", "url": "https://www.gov.uk/government/collections/procurement-act-2023-guidance-documents"}]}, {"pipeline": "Single‑source defence contracts (Qualifying Defence Contract or Qualifying Sub‑contract)", "key": "single_source", "stages": [{"name": "Confirm scope (QDC or QSC)", "weeks": 2}, {"name": "Pricing method and Baseline Profit Rate", "weeks": 8}, {"name": "Place contract and initial reports (Defence Contract Analysis and Reporting System)", "weeks": 4}, {"name": "Ongoing cost and performance reporting", "weeks": 12}, {"name": "Final price adjustment (if applicable)", "weeks": 4}], "requirements": ["Non‑competitive award meeting statutory scope and threshold tests.", "Compliance with Single Source Regulations Office guidance on pricing and reporting via the Defence Contract Analysis and Reporting System."], "how_to": ["Engage early with the contracting authority on pricing constructs and reporting packs.", "Set up Defence Contract Analysis and Reporting System accounts and processes."], "legal": [{"title": "Defence Reform Act 2014 – Part 2", "url": "https://www.legislation.gov.uk/ukpga/2014/20/part/2"}, {"title": "Single Source Contract Regulations 2014", "url": "https://www.legislation.gov.uk/uksi/2014/3337/contents"}, {"title": "Single Source Regulations Office – guidance hub", "url": "https://www.gov.uk/government/publications/guidance-provided-by-the-ssro/guidance-provided-by-the-ssro"}]}, {"pipeline": "Defence and Security Accelerator – Open Call and themed competitions", "key": "dasa", "stages": [{"name": "Idea shaping and pre‑submission", "weeks": 2}, {"name": "Submit online before cycle close", "weeks": 2}, {"name": "Assessment and feedback", "weeks": 4}, {"name": "Contracting and project kick‑off", "weeks": 3}], "requirements": ["Competition‑specific eligibility and ethics requirements.", "Appropriate cyber assurance and security controls depending on data handling."], "how_to": ["Create an account on the submission service; prepare the proposal with the provided templates.", "Submit before the deadline; respond to clarification requests promptly."], "legal": [{"title": "Apply for funding (DASA)", "url": "https://www.gov.uk/government/collections/apply-for-funding"}, {"title": "Themed competitions collection", "url": "https://www.gov.uk/government/collections/defence-and-security-accelerator-funding-competitions"}]}, {"pipeline": "Defence Science and Technology Laboratory – SERAPIS and Research Cloud", "key": "dstl", "stages": [{"name": "Qualify or on‑ramp to supplier environment", "weeks": 3}, {"name": "Mini‑competitions and invitations to bid", "weeks": 4}, {"name": "Evaluation and award", "weeks": 3}, {"name": "Mobilisation", "weeks": 2}], "requirements": ["Qualification to SERAPIS lots or Research Cloud categories.", "Security vetting as required by task; use of the Defence Sourcing Portal."], "how_to": ["Monitor SERAPIS and Research Cloud pages for on‑ramping windows and tasks.", "Maintain your Defence Sourcing Portal profile; respond to competitions via the portal."], "legal": [{"title": "How to work with Dstl – SERAPIS", "url": "https://www.gov.uk/government/publications/how-to-work-with-dstl-serapis"}, {"title": "How to become a Dstl supplier", "url": "https://www.gov.uk/guidance/how-to-become-a-dstl-supplier"}]}, {"pipeline": "Urgent capability acquisition (accelerated / urgent operational)", "key": "uor", "stages": [{"name": "Rapid requirement and approvals", "weeks": 2}, {"name": "Sourcing and negotiation", "weeks": 2}, {"name": "Contract award", "weeks": 1}, {"name": "Initial delivery (indicative)", "weeks": 6}], "requirements": ["Expedited approvals and potential waivers; strong justification file.", "Security, export control, and assurance steps adapted but not removed."], "how_to": ["Engage the buyer early with a credible and rapidly deployable solution.", "Prepare for intense due diligence and accelerated contracting cycles."], "legal": [{"title": "Direct award and exemptions (Procurement Act guidance)", "url": "https://www.gov.uk/government/publications/procurement-act-2023-guidance-documents-define-phase/direct-award-html"}]}, {"pipeline": "NATO Support and Procurement Agency supplier route", "key": "nspa", "stages": [{"name": "Register in the NATO Support and Procurement Agency Source File", "weeks": 4}, {"name": "e‑Procurement account validation", "weeks": 1}, {"name": "Monitor opportunities and submit bids", "weeks": 4}, {"name": "Award and performance", "weeks": 2}], "requirements": ["NATO Commercial and Government Entity code and NATO security considerations.", "Use of NATO Support and Procurement Agency e‑Procurement (including eBid) and compliance with agency terms."], "how_to": ["Register free of charge in the NATO Support and Procurement Agency Source File via the e‑portal; complete validation.", "Set alerts for Future Business Opportunities and Requests for Proposal; submit online bids."], "legal": [{"title": "How to do business with NATO Support and Procurement Agency (brochure)", "url": "https://www.koda.ee/sites/default/files/inline-files/HowToDoBusinessWithNSPA.pdf"}, {"title": "NATO Support and Procurement Agency procurement presentation", "url": "https://www.cc.lu/fileadmin/user_upload/tx_ccnews/PRESENTATION_NSPA.pdf"}, {"title": "NSPA bid instructions", "url": "https://www.gov.pl/attachment/178b5ace-9b2d-430d-a77e-ff0806d474fc"}]}, {"pipeline": "United States Foreign Military Sales (participation via primes)", "key": "fms", "stages": [{"name": "Partner engagement and requirement", "weeks": 4}, {"name": "Letter of Request (Price and Availability or Letter of Offer and Acceptance)", "weeks": 6}, {"name": "Letter of Offer and Acceptance development and notification (if required)", "weeks": 16}, {"name": "Letter of Offer and Acceptance acceptance and case implementation", "weeks": 6}], "requirements": ["Compliance with the Security Assistance Management Manual and United States export controls (International Traffic in Arms Regulations and Export Administration Regulations).", "United Kingdom firms typically participate as sub‑contractors to United States primes or implementing agencies."], "how_to": ["Align your offering with the partner nation requirement and United States Implementing Agency case scope.", "Ensure export control authorisations and technical assistance agreements are in place as required."], "legal": [{"title": "Security Assistance Management Manual – Chapter 5", "url": "https://samm.dsca.mil/chapter/chapter-5"}, {"title": "Letter of Offer and Acceptance – terms", "url": "https://samm.dsca.mil/figure/figure-c5f4"}, {"title": "International Traffic in Arms Regulations (22 CFR Subchapter M)", "url": "https://www.ecfr.gov/current/title-22/chapter-I/subchapter-M"}, {"title": "Export Administration Regulations (15 CFR)", "url": "https://www.ecfr.gov/current/title-15/subtitle-B/chapter-VII/subchapter-C"}]}, {"pipeline": "United States ‘Other Transaction Authority’ consortia (indirect route for research and prototyping)", "key": "us_ota", "stages": [{"name": "Join a relevant consortium and meet membership requirements", "weeks": 3}, {"name": "Monitor calls and submit white papers or proposals", "weeks": 4}, {"name": "Down‑select, negotiation and award", "weeks": 6}, {"name": "Prototype execution", "weeks": 12}], "requirements": ["Eligibility per consortium rules; for international firms, non‑United States participation is often permitted but subject to security and export control constraints.", "Compliance with United States export controls; registration on SAM.gov, and a NATO Commercial and Government Entity code where required."], "how_to": ["Identify the appropriate consortium (for example armaments, aviation and missile, spectrum) and complete membership steps.", "Submit responses to calls; if selected, negotiate terms under the Other Transaction Authority instrument."], "legal": [{"title": "United States Department of Defense Other Transactions Guide (July 2023)", "url": "https://www.acq.osd.mil/asda/dpc/cp/policy/docs/guidebook/TAB%20A1%20-%20DoD%20OT%20Guide%20JUL%202023_final.pdf"}, {"title": "Defense Acquisition University – Other Transactions hub", "url": "https://www.dau.edu/cop/ot"}, {"title": "Defense Industrial Base Consortium – how to join (example)", "url": "https://www.dibconsortium.org/how-to-join/"}, {"title": "MITRE AiDA – existing OT consortia list", "url": "https://aida.mitre.org/ota/existing-ota-consortia/"}]}, {"pipeline": "Crown Commercial Service – Technology Products & Associated Services 2 (TePAS 2, RM6098)", "key": "ccs_tepas2", "stages": [{"name": "Apply to framework (when open) or use as supplier", "weeks": 6}, {"name": "Mini‑competition or catalogue call‑off", "weeks": 4}, {"name": "Award and mobilisation", "weeks": 3}], "requirements": ["For suppliers: meet framework selection and lot requirements when the framework is let; comply with call‑off terms.", "For buyers: Ministry of Defence access to certain lots via the Purchasing Platform."], "how_to": ["Suppliers: respond to the framework tender when advertised on the Find a Tender service; once on, maintain catalogue entries.", "Buyers: run a mini‑competition or buy from catalogue lots per the framework rules."], "legal": [{"title": "Technology Products & Associated Services 2 – RM6098", "url": "https://www.crowncommercial.gov.uk/agreements/RM6098"}]}, {"pipeline": "Crown Commercial Service – Digital and IT Professional Services (DIPS, RM6249, MOD‑only)", "key": "ccs_dips", "stages": [{"name": "Framework membership (supplier) – when tendered", "weeks": 6}, {"name": "Mini‑competition (MOD buyers)", "weeks": 4}, {"name": "Award and mobilisation", "weeks": 3}], "requirements": ["Available only for Ministry of Defence buyers; let under the Defence and Security Public Contracts Regulations 2011 (as stated by Crown Commercial Service).", "Multiple capability lots across the information technology spectrum."], "how_to": ["Suppliers: apply at framework tender stage; maintain compliance with lot criteria.", "MOD buyers: run competitions per the framework call‑off procedure."], "legal": [{"title": "Digital and IT Professional Services – RM6249 (MOD‑only)", "url": "https://www.crowncommercial.gov.uk/agreements/RM6249"}]}, {"pipeline": "Crown Commercial Service – G‑Cloud (RM1557.14 and RM1557.15)", "key": "ccs_gcloud", "stages": [{"name": "Apply to framework iteration (supplier)", "weeks": 6}, {"name": "List services in the catalogue", "weeks": 2}, {"name": "Buyer runs search, evaluation and call‑off", "weeks": 4}], "requirements": ["Suppliers must meet iteration‑specific requirements; buyers purchase via the Public Procurement Gateway / Contract Award Service.", "G‑Cloud 14 was let under the Public Contracts Regulations 2015; G‑Cloud 15 under the Procurement Act 2023 (per Crown Commercial Service)."], "how_to": ["Suppliers: follow the ‘Applying to the G‑Cloud framework’ guidance and respond when the iteration opens.", "Buyers: use the G‑Cloud buyers’ guide and the Public Procurement Gateway to run compliant evaluations."], "legal": [{"title": "G‑Cloud 14 – RM1557.14", "url": "https://www.crowncommercial.gov.uk/agreements/RM1557.14"}, {"title": "G‑Cloud 15 – RM1557.15 (upcoming/live iteration info)", "url": "https://www.crowncommercial.gov.uk/agreements/RM1557.15"}, {"title": "Find a Tender – G‑Cloud 15 notice", "url": "https://www.find-tender.service.gov.uk/Notice/015819-2025"}, {"title": "Applying to the G‑Cloud framework (supplier guide)", "url": "https://www.gov.uk/guidance/g-cloud-suppliers-guide"}, {"title": "G‑Cloud buyers’ guide", "url": "https://www.gov.uk/guidance/g-cloud-buyers-guide"}]}, {"pipeline": "Crown Commercial Service – Digital Specialists and Programmes (RM6263)", "key": "ccs_dsp", "stages": [{"name": "Supplier application to framework", "weeks": 6}, {"name": "Mini‑competitions for roles and outcomes", "weeks": 4}, {"name": "Award and onboarding", "weeks": 3}], "requirements": ["Provides digital, data and technology specialists and programme delivery; used by central government and wider public sector.", "Includes specific call‑off schedules and, for some bodies, tailored terms."], "how_to": ["Suppliers: apply when framework is tendered; maintain capability and evidence.", "Buyers: run competitions using the framework documentation and call‑off schedules."], "legal": [{"title": "Digital Specialists and Programmes – RM6263 (framework page)", "url": "https://www.crowncommercial.gov.uk/agreements/RM6263"}, {"title": "Find a Tender – Digital Specialists and Programmes notices", "url": "https://www.find-tender.service.gov.uk/Notice/009301-2022"}]}, {"pipeline": "Crown Commercial Service – Network Services 3 (RM6116)", "key": "ccs_ns3", "stages": [{"name": "Supplier application to framework", "weeks": 6}, {"name": "Lot‑based further competitions and direct awards (where allowed)", "weeks": 4}, {"name": "Award and implementation", "weeks": 4}], "requirements": ["Provides network and telecommunications services across multiple lots, including connectivity and voice/data services.", "Used across the public sector; relevant for defence networking projects alongside security requirements."], "how_to": ["Suppliers: apply at framework tender; select applicable lots.", "Buyers: run lot‑specific competitions using scope and rules stated on the framework page and notices."], "legal": [{"title": "Network Services 3 – RM6116 (framework page)", "url": "https://www.crowncommercial.gov.uk/agreements/RM6116"}, {"title": "Find a Tender – Network Services 3 framework notice", "url": "https://www.find-tender.service.gov.uk/Notice/004691-2024"}]}, {"pipeline": "Innovate UK ‘Contracts for Innovation’ (formerly Small Business Research Initiative)", "key": "sbri_cfi", "stages": [{"name": "Competition opens and challenge published", "weeks": 2}, {"name": "Phase 1 feasibility bids", "weeks": 4}, {"name": "Phase 2 development (if invited)", "weeks": 12}], "requirements": ["Public‑sector challenge owner runs a competitive process for research and development contracts.", "Open to organisations of any size; terms and templates published per competition."], "how_to": ["Monitor the Innovate UK Contracts for Innovation pages and individual competition briefs on GOV.UK.", "Submit via the specified portal with the provided templates and meet the eligibility criteria."], "legal": [{"title": "Innovate UK Contracts for Innovation (formerly SBRI) – overview", "url": "https://www.ukri.org/what-we-do/browse-our-areas-of-investment-and-support/innovate-uk-contracts-for-innovation/"}, {"title": "Example competition brief (SBRI)", "url": "https://www.gov.uk/government/publications/sbri-unlocking-space-for-business/unlocking-space-for-business-sbri-competition-brief"}]}, {"pipeline": "Ministry of Defence Framework Library (overview and access to lists)", "key": "mod_frameworks", "stages": [{"name": "Identify applicable Ministry of Defence or Crown Commercial Service framework", "weeks": 2}, {"name": "Qualify or join where applicable", "weeks": 6}, {"name": "Run call‑offs / mini‑competitions", "weeks": 4}], "requirements": ["Crown Commercial Service frameworks preferred for common goods and services.", "Ministry of Defence publishes a Framework Library list and acquisition pipeline materials."], "how_to": ["Use the Ministry of Defence Framework Library page to locate relevant frameworks and then apply or respond as appropriate.", "Follow the eligibility and call‑off rules stated for each framework."], "legal": [{"title": "Ministry of Defence Framework Library – list of purchasing agreements", "url": "https://www.gov.uk/government/publications/ministry-of-defence-framework-library-list-of-purchasing-agreements"}, {"title": "Ministry of Defence purchasing frameworks – introduction", "url": "https://www.gov.uk/government/publications/ministry-of-defence-framework-library-list-of-purchasing-agreements/ministry-of-defence-purchasing-frameworks-introduction"}]}];
+
+  // Build bibliography list from all legal links (unique by URL)
+  const bibMap = new Map();
+  DATA.forEach(d => d.legal.forEach(l => bibMap.set(l.url, l.title)));
+  const bibList = document.getElementById('bibList');
+  [...bibMap.entries()].forEach(([url, title]) => {
+    const li = document.createElement('li');
+    const a = document.createElement('a');
+    a.href = url; a.textContent = title;
+    li.appendChild(a);
+    bibList.appendChild(li);
+  });
+
+  function preAwardWeeks(stages) {
+    return stages.reduce((acc, s) => {
+      const name = s.name.toLowerCase();
+      if (name.includes('delivery') || name.includes('implementation') || name.includes('mobilisation')) return acc;
+      return acc + s.weeks;
+    }, 0);
+  }
+
+  function renderTable(filterText="") {
+    const body = document.querySelector('#summaryTable tbody');
+    body.innerHTML = "";
+    const filtered = DATA.filter(d => matchesFilter(d, filterText));
+    filtered.forEach(d => {
+      const tr = document.createElement('tr');
+      tr.setAttribute('data-pipeline', d.pipeline);
+      tr.addEventListener('click', () => spotlight(d.pipeline));
+      const reqList = "<ul class='muted'>" + d.requirements.map(x => `<li>${escapeHtml(x)}</li>`).join("") + "</ul>"
+                    + "<details><summary>How to apply</summary><ol>" + d.how_to.map(x => `<li>${escapeHtml(x)}</li>`).join("") + "</ol></details>";
+      const lawList = "<ul class='muted'>" + d.legal.map(l => `<li><a href='${l.url}'>${escapeHtml(l.title)}</a></li>`).join("") + "</ul>";
+      tr.innerHTML = `
+        <td><strong>${d.pipeline}</strong></td>
+        <td>${preAwardWeeks(d.stages)}</td>
+        <td>${d.stages.reduce((a,b)=>a+b.weeks,0)}</td>
+        <td>${reqList}</td>
+        <td>${lawList}</td>
+      `;
+      body.appendChild(tr);
+    });
+  }
+
+  // --- Gantt (SVG) with wrapped/clamped labels
+  const MAX_WEEKS = Math.max(...DATA.map(d => d.stages.reduce((a,b)=>a+b.weeks,0)));
+  const pxPerWeekBase = 26;
+  const rowHeight = 44;
+  const rowGap = 10;
+  const leftMargin = 300;
+  const rightMargin = 24;
+  const topMargin = 36;
+  const bottomMargin = 36;
+  const colors = ["#9db2ff","#c0e0ff","#a6f0c6","#ffd5a6","#f9a8d4","#f8f0a6","#b8b1ff","#9fe3ff","#b2f2bb","#ffe3b3","#fbcfe8","#fae8a6"];
+  function colorFor(i) { return colors[i % colors.length]; }
+
+  function renderGantt(filterText="") {
+    const svg = document.getElementById('gantt');
+    const filtered = DATA.filter(d => matchesFilter(d, filterText));
+    const n = filtered.length;
+    const contentHeight = n * (rowHeight + rowGap) + topMargin + bottomMargin;
+    const contentWidth = leftMargin + MAX_WEEKS * pxPerWeekBase + rightMargin;
+    svg.setAttribute('width', contentWidth);
+    svg.setAttribute('height', Math.max(560, contentHeight));
+    svg.innerHTML = "";
+    const ns = "http://www.w3.org/2000/svg";
+
+    // grid + axis
+    for (let w=0; w<=MAX_WEEKS; w+=4) {
+      const x = leftMargin + w * pxPerWeekBase;
+      const line = document.createElementNS(ns, 'line');
+      line.setAttribute('x1', x); line.setAttribute('y1', topMargin - 10);
+      line.setAttribute('x2', x); line.setAttribute('y2', contentHeight - bottomMargin + 6);
+      line.setAttribute('class', 'grid-line'); svg.appendChild(line);
+      const label = document.createElementNS(ns, 'text');
+      label.setAttribute('x', x); label.setAttribute('y', topMargin - 14);
+      label.setAttribute('class', 'axis-label'); label.setAttribute('text-anchor', 'middle');
+      label.textContent = w; svg.appendChild(label);
+    }
+
+    filtered.forEach((d, idx) => {
+      const yTop = topMargin + idx * (rowHeight + rowGap);
+
+      // Wrapped label using foreignObject, clamped to two lines
+      const foreign = document.createElementNS(ns, 'foreignObject');
+      foreign.setAttribute('x', 12);
+      foreign.setAttribute('y', yTop + 4);
+      foreign.setAttribute('width', leftMargin - 24);
+      foreign.setAttribute('height', rowHeight - 8);
+      const div = document.createElement('div');
+      div.setAttribute('xmlns', 'http://www.w3.org/1999/xhtml');
+      div.className = 'labelBox';
+      div.textContent = d.pipeline;
+      div.style.cursor = "pointer";
+      div.onclick = () => spotlight(d.pipeline);
+      foreign.appendChild(div);
+      svg.appendChild(foreign);
+
+      // Bars
+      let t = 0;
+      d.stages.forEach((st, sidx) => {
+        const rect = document.createElementNS(ns, 'rect');
+        rect.setAttribute('x', leftMargin + t * pxPerWeekBase);
+        rect.setAttribute('y', yTop);
+        rect.setAttribute('width', st.weeks * pxPerWeekBase);
+        rect.setAttribute('height', rowHeight);
+        rect.setAttribute('class', 'bar');
+        rect.setAttribute('fill', colorFor(sidx));
+        rect.setAttribute('data-pipeline', d.pipeline);
+        rect.setAttribute('data-stage', st.name);
+        rect.setAttribute('data-weeks', st.weeks);
+        rect.addEventListener('mouseenter', (e) => showTooltip(e));
+        rect.addEventListener('mouseleave', hideTooltip);
+        svg.appendChild(rect);
+        t += st.weeks;
+      });
+    });
+  }
+
+  // Tooltip
+  const tip = document.createElement('div');
+  tip.style.position = 'fixed'; tip.style.background = 'rgba(18,21,26,0.95)';
+  tip.style.border = '1px solid #2a2f38'; tip.style.color = '#e8ecf1';
+  tip.style.fontSize = '12px'; tip.style.padding = '6px 8px'; tip.style.borderRadius = '8px';
+  tip.style.pointerEvents = 'none'; tip.style.zIndex = '9999'; tip.style.display = 'none';
+  document.body.appendChild(tip);
+  function showTooltip(e) {
+    const tgt = e.target;
+    const stage = tgt.getAttribute('data-stage');
+    const weeks = tgt.getAttribute('data-weeks');
+    const pipeline = tgt.getAttribute('data-pipeline');
+    tip.innerHTML = `<strong>${pipeline}</strong><br/>${stage} — ${weeks} week(s)`;
+    tip.style.left = (e.clientX + 12) + 'px';
+    tip.style.top = (e.clientY + 12) + 'px';
+    tip.style.display = 'block';
+  }
+  function hideTooltip() { tip.style.display = 'none'; }
+
+  function spotlight(pipeline) {
+    const svg = document.getElementById('gantt');
+    const bars = svg.querySelectorAll(`.bar[data-pipeline="${pipeline}"]`);
+    bars.forEach(b => b.animate([{opacity:1}, {opacity:0.3}, {opacity:1}], {duration:800, iterations:2}));
+    const row = document.querySelector(`#summaryTable tbody tr[data-pipeline="${pipeline}"]`);
+    if (row) row.scrollIntoView({behavior:'smooth', block:'center'});
+  }
+
+  function matchesFilter(d, text) {
+    if (!text) return true;
+    const t = text.toLowerCase();
+    const hay = [d.pipeline, ...d.stages.map(s=>s.name), ...d.requirements, ...d.how_to, ...d.legal.map(l=>l.title)].join(" ").toLowerCase();
+    return hay.includes(t);
+  }
+  const searchEl = document.getElementById('search');
+  searchEl.addEventListener('input', () => {
+    const v = searchEl.value.trim();
+    renderGantt(v);
+    renderTable(v);
+    highlightMatches(v);
+  });
+
+  function escapeHtml(str) { return str.replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;'); }
+  function highlightMatches(term) {
+    document.querySelectorAll('.match').forEach(x=>x.classList.remove('match'));
+    if (!term) return;
+    document.querySelectorAll('td,li,summary').forEach(el => { if (el.textContent.toLowerCase().includes(term.toLowerCase())) el.classList.add('match'); });
+  }
+
+  renderGantt(""); renderTable("");
+
+</script>
+</body>
+</html>
