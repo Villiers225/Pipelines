@@ -1,16 +1,10 @@
-
 <!doctype html>
 <html lang="en">
 <head>
-<meta name="theme-color" content="#0b0d10" />
-<meta property="og:type" content="website" />
-<meta property="og:title" content="UK Defence Procurement Playbook – Interactive" />
-<meta property="og:description" content="Shareable, single-file guide to UK defence procurement routes with timelines, how-to steps, and legal links." />
-<meta name="twitter:card" content="summary" />
-
 <meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>UK Defence Procurement Playbook – Interactive (Pro v2)</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>UK Defence Procurement Playbook – Interactive (Mobile‑friendly)</title>
+<meta name="theme-color" content="#0b0d10" />
 <style>
   :root {
     --bg: #0b0d10;
@@ -22,6 +16,7 @@
     --muted: #8a94a6;
   }
   * { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; }
   body {
     margin: 0;
     font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
@@ -30,32 +25,38 @@
     line-height: 1.55;
   }
   header {
-    padding: 24px 20px 8px;
+    padding: 20px 16px 8px;
     border-bottom: 1px solid var(--grid);
     background: linear-gradient(0deg, rgba(122,162,255,0.05), rgba(122,162,255,0.05)), var(--panel);
     position: sticky; top: 0; z-index: 10;
   }
-  h1 { margin: 0 0 6px; font-size: 24px; }
-  .sub { color: var(--muted); font-size: 14px; }
-  .wrap { max-width: 1200px; margin: 0 auto; }
-  .controls { display: grid; grid-template-columns: 1fr auto auto auto; gap: 10px; margin: 14px 0 8px; }
+  h1 { margin: 0 0 6px; font-size: clamp(20px, 2.4vw, 26px); }
+  .sub { color: var(--muted); font-size: clamp(12px, 1.8vw, 14px); }
+  .wrap { max-width: 1200px; margin: 0 auto; padding: 0 8px; }
+  .controls { display: grid; grid-template-columns: 1fr auto auto auto; gap: 8px; margin: 12px 0 8px; }
   .control { background: var(--panel); border: 1px solid var(--grid); border-radius: 12px; padding: 10px 12px; color: var(--ink); width: 100%; }
-  .btn { display: inline-flex; align-items: center; gap: 8px; padding: 10px 12px; border-radius: 12px; border: 1px solid var(--grid); background: var(--panel); color: var(--ink); text-decoration: none; cursor: pointer; }
-  main { padding: 18px 20px 40px; }
-  section { margin: 22px 0; }
-  .card { background: var(--panel); border: 1px solid var(--grid); border-radius: 16px; padding: 16px; }
+  .btn { display: inline-flex; align-items: center; gap: 8px; padding: 10px 12px; border-radius: 12px; border: 1px solid var(--grid); background: var(--panel); color: var(--ink); text-decoration: none; cursor: pointer; white-space: nowrap; }
+  .btn.secondary { background: #0f1530; }
+  main { padding: 14px 16px 28px; }
+  section { margin: 18px 0; }
+  .card { background: var(--panel); border: 1px solid var(--grid); border-radius: 16px; padding: 14px; }
   .muted { color: var(--ink-dim); }
   .legend { display:flex; flex-wrap:wrap; gap: 8px; margin-top: 8px; color: var(--ink-dim); font-size: 12px; }
   .chip { display:flex; align-items:center; gap:8px; }
   .chip .sw { width:14px; height:10px; border-radius:3px; background:#9db2ff; }
   .chip .sw.warn { background:#f2b65b; }
   .chip .sw.ok { background:#9df4c3; }
+  .toolbar { display:flex; gap:8px; flex-wrap:wrap; align-items:center; margin:8px 0; }
+  .toolbar label { font-size: 12px; color: var(--ink-dim); }
+  .toolbar input[type=range] { width: 180px; }
+
   #gantt-container { overflow-x: auto; padding-bottom: 10px; }
-  #gantt { width: 100%; min-height: 560px; }
+  #gantt { width: 100%; min-height: 420px; }
   .bar { fill-opacity: 0.9; rx: 6; ry: 6; stroke: rgba(255,255,255,0.08); stroke-width: 1; }
   .grid-line { stroke: var(--grid); stroke-width: 1; }
   .axis-label { fill: var(--ink-dim); font-size: 10px; }
-  .labelBox { font-size: 12px; color: var(--ink); line-height: 1.25; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+  .labelBox { font-size: 12px; color: var(--ink); line-height: 1.25; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+
   table { width: 100%; border-collapse: collapse; }
   th, td { border-bottom: 1px solid var(--grid); padding: 10px 8px; text-align: left; vertical-align: top; font-size: 14px; }
   th { position: sticky; top: 0; background: var(--panel); z-index: 1; }
@@ -65,6 +66,20 @@
   .note { font-size:12px; color: var(--ink-dim); margin-top: 6px; }
   .gloss li { margin-bottom: 6px; }
   .match { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+  /* Mobile-friendly adjustments */
+  .desktopOnly { display: block; }
+  .mobileOnly { display: none; }
+
+  @media (max-width: 900px) {
+    .controls { grid-template-columns: 1fr; }
+    .btn { width: 100%; justify-content: center; }
+    .toolbar input[type=range] { width: 100%; }
+    th, td { font-size: 13px; }
+    #gantt { min-height: 360px; }
+    .desktopOnly { display: none; }
+    .mobileOnly { display: block; }
+  }
 </style>
 </head>
 <body>
@@ -83,20 +98,26 @@
 
   <main class="wrap">
     <section class="card">
-      <h2 style="margin:0 0 12px;font-size:18px;">Gantt‑style timelines (weeks)</h2>
+      <h2 style="margin:0 0 8px;font-size:18px;">Gantt‑style timelines (weeks)</h2>
       <div class="legend">
         <div class="chip"><span class="sw"></span>Stage</div>
         <div class="chip"><span class="sw warn"></span>Standstill or statutory step</div>
         <div class="chip"><span class="sw ok"></span>Minimum window (indicative)</div>
       </div>
+      <div class="toolbar">
+        <button id="toggleGantt" class="btn secondary" aria-expanded="true">Hide timeline</button>
+        <label for="zoom">Timeline zoom</label>
+        <input id="zoom" type="range" min="12" max="36" step="1" value="18" />
+        <span id="zoomVal" class="muted">18</span>
+      </div>
       <div id="gantt-container">
         <svg id="gantt" role="img" aria-label="Gantt timelines in weeks"></svg>
       </div>
-      <div class="note">Hover bars for details. Click a pipeline name in the table to spotlight it.</div>
+      <div class="note">Tip: swipe horizontally to scroll. Use the slider to zoom bars on small screens.</div>
     </section>
 
-    <section class="card">
-      <h2 style="margin:0 0 12px;font-size:18px;">Pipelines – summary, how to apply and legal hooks</h2>
+    <section class="card desktopOnly">
+      <h2 style="margin:0 0 8px;font-size:18px;">Pipelines – summary, how to apply and legal hooks</h2>
       <div style="overflow:auto; max-height: 560px;">
         <table id="summaryTable">
           <thead>
@@ -111,11 +132,15 @@
           <tbody></tbody>
         </table>
       </div>
-      <div class="note">Acronyms are avoided in the body where possible; see glossary below for definitions.</div>
+    </section>
+
+    <section class="card mobileOnly">
+      <h2 style="margin:0 0 8px;font-size:18px;">Pipelines (mobile cards)</h2>
+      <div id="mobileList"></div>
     </section>
 
     <section class="card" id="glossary">
-      <h2 style="margin:0 0 12px;font-size:18px;">Glossary (acronyms used on this page)</h2>
+      <h2 style="margin:0 0 8px;font-size:18px;">Glossary (acronyms used on this page)</h2>
       <ul class="gloss">
         <li><strong>Find a Tender service (FTS)</strong> – The United Kingdom platform for regulated procurement notices.</li>
         <li><strong>Contracts Finder</strong> – The central United Kingdom portal for opportunities above £12,000.</li>
@@ -132,7 +157,7 @@
     </section>
 
     <section class="card" id="bibliography">
-      <h2 style="margin:0 0 12px;font-size:18px;">Bibliography & landing pages</h2>
+      <h2 style="margin:0 0 8px;font-size:18px;">Bibliography & landing pages</h2>
       <ul id="bibList" class="muted"></ul>
     </section>
   </main>
@@ -152,6 +177,23 @@
     bibList.appendChild(li);
   });
 
+  // --- UI helpers
+  function escapeHtml(str) { return str.replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;'); }
+  function matchesFilter(d, text) {
+    if (!text) return true;
+    const t = text.toLowerCase();
+    const hay = [d.pipeline, ...d.stages.map(s=>s.name), ...d.requirements, ...d.how_to, ...d.legal.map(l=>l.title)].join(" ").toLowerCase();
+    return hay.includes(t);
+  }
+  function highlightMatches(term) {
+    document.querySelectorAll('.match').forEach(x=>x.classList.remove('match'));
+    if (!term) return;
+    document.querySelectorAll('td,li,summary,.mcard').forEach(el => {
+      if (el.textContent.toLowerCase().includes(term.toLowerCase())) el.classList.add('match');
+    });
+  }
+
+  // --- Table (desktop)
   function preAwardWeeks(stages) {
     return stages.reduce((acc, s) => {
       const name = s.name.toLowerCase();
@@ -159,9 +201,9 @@
       return acc + s.weeks;
     }, 0);
   }
-
   function renderTable(filterText="") {
     const body = document.querySelector('#summaryTable tbody');
+    if (!body) return;
     body.innerHTML = "";
     const filtered = DATA.filter(d => matchesFilter(d, filterText));
     filtered.forEach(d => {
@@ -182,9 +224,43 @@
     });
   }
 
-  // --- Gantt (SVG) with wrapped/clamped labels
+  // --- Mobile cards
+  function renderMobileCards(filterText="") {
+    const cont = document.getElementById('mobileList');
+    if (!cont) return;
+    cont.innerHTML = "";
+    const filtered = DATA.filter(d => matchesFilter(d, filterText));
+    filtered.forEach(d => {
+      const card = document.createElement('div');
+      card.className = 'mcard';
+      card.style.border = '1px solid var(--grid)';
+      card.style.borderRadius = '12px';
+      card.style.padding = '12px';
+      card.style.margin = '10px 0';
+      const pre = preAwardWeeks(d.stages);
+      const total = d.stages.reduce((a,b)=>a+b.weeks,0);
+      card.innerHTML = `
+        <div style="font-weight:700;margin-bottom:4px;">${d.pipeline}</div>
+        <div class="muted" style="font-size:12px;margin-bottom:8px;">Pre‑award: ${pre} weeks • Total to first delivery: ${total} weeks</div>
+        <details open>
+          <summary>Requirements & how to apply</summary>
+          <ul class="muted" style="margin-top:8px;">${d.requirements.map(x=>`<li>${escapeHtml(x)}</li>`).join('')}</ul>
+          <div style="margin-top:6px;"></div>
+          <ol>${d.how_to.map(x=>`<li>${escapeHtml(x)}</li>`).join('')}</ol>
+        </details>
+        <details>
+          <summary>Legal & guidance</summary>
+          <ul class="muted" style="margin-top:8px;">${d.legal.map(l=>`<li><a href='${l.url}'>${escapeHtml(l.title)}</a></li>`).join('')}</ul>
+        </details>
+      `;
+      card.addEventListener('click', () => spotlight(d.pipeline));
+      cont.appendChild(card);
+    });
+  }
+
+  // --- Gantt (SVG) with wrapped labels + zoom + hide/show
   const MAX_WEEKS = Math.max(...DATA.map(d => d.stages.reduce((a,b)=>a+b.weeks,0)));
-  const pxPerWeekBase = 26;
+  let pxPerWeek = (window.innerWidth <= 900) ? 18 : 26;
   const rowHeight = 44;
   const rowGap = 10;
   const leftMargin = 300;
@@ -199,15 +275,15 @@
     const filtered = DATA.filter(d => matchesFilter(d, filterText));
     const n = filtered.length;
     const contentHeight = n * (rowHeight + rowGap) + topMargin + bottomMargin;
-    const contentWidth = leftMargin + MAX_WEEKS * pxPerWeekBase + rightMargin;
+    const contentWidth = leftMargin + MAX_WEEKS * pxPerWeek + rightMargin;
     svg.setAttribute('width', contentWidth);
-    svg.setAttribute('height', Math.max(560, contentHeight));
+    svg.setAttribute('height', Math.max(360, contentHeight));
     svg.innerHTML = "";
     const ns = "http://www.w3.org/2000/svg";
 
     // grid + axis
     for (let w=0; w<=MAX_WEEKS; w+=4) {
-      const x = leftMargin + w * pxPerWeekBase;
+      const x = leftMargin + w * pxPerWeek;
       const line = document.createElementNS(ns, 'line');
       line.setAttribute('x1', x); line.setAttribute('y1', topMargin - 10);
       line.setAttribute('x2', x); line.setAttribute('y2', contentHeight - bottomMargin + 6);
@@ -221,7 +297,7 @@
     filtered.forEach((d, idx) => {
       const yTop = topMargin + idx * (rowHeight + rowGap);
 
-      // Wrapped label using foreignObject, clamped to two lines
+      // Wrapped label using foreignObject, clamped to three lines
       const foreign = document.createElementNS(ns, 'foreignObject');
       foreign.setAttribute('x', 12);
       foreign.setAttribute('y', yTop + 4);
@@ -240,9 +316,9 @@
       let t = 0;
       d.stages.forEach((st, sidx) => {
         const rect = document.createElementNS(ns, 'rect');
-        rect.setAttribute('x', leftMargin + t * pxPerWeekBase);
+        rect.setAttribute('x', leftMargin + t * pxPerWeek);
         rect.setAttribute('y', yTop);
-        rect.setAttribute('width', st.weeks * pxPerWeekBase);
+        rect.setAttribute('width', st.weeks * pxPerWeek);
         rect.setAttribute('height', rowHeight);
         rect.setAttribute('class', 'bar');
         rect.setAttribute('fill', colorFor(sidx));
@@ -284,29 +360,40 @@
     if (row) row.scrollIntoView({behavior:'smooth', block:'center'});
   }
 
-  function matchesFilter(d, text) {
-    if (!text) return true;
-    const t = text.toLowerCase();
-    const hay = [d.pipeline, ...d.stages.map(s=>s.name), ...d.requirements, ...d.how_to, ...d.legal.map(l=>l.title)].join(" ").toLowerCase();
-    return hay.includes(t);
-  }
+  // Search + zoom + toggle
   const searchEl = document.getElementById('search');
+  const zoom = document.getElementById('zoom');
+  const zoomVal = document.getElementById('zoomVal');
+  const toggleBtn = document.getElementById('toggleGantt');
+  let ganttHidden = false;
+
   searchEl.addEventListener('input', () => {
     const v = searchEl.value.trim();
     renderGantt(v);
     renderTable(v);
+    renderMobileCards(v);
     highlightMatches(v);
   });
+  zoom.addEventListener('input', () => {
+    pxPerWeek = parseInt(zoom.value, 10);
+    zoomVal.textContent = pxPerWeek;
+    renderGantt(searchEl.value.trim());
+  });
+  toggleBtn.addEventListener('click', () => {
+    const cont = document.getElementById('gantt-container');
+    ganttHidden = !ganttHidden;
+    cont.style.display = ganttHidden ? 'none' : 'block';
+    toggleBtn.textContent = ganttHidden ? 'Show timeline' : 'Hide timeline';
+    toggleBtn.setAttribute('aria-expanded', String(!ganttHidden));
+  });
 
-  function escapeHtml(str) { return str.replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;'); }
-  function highlightMatches(term) {
-    document.querySelectorAll('.match').forEach(x=>x.classList.remove('match'));
-    if (!term) return;
-    document.querySelectorAll('td,li,summary').forEach(el => { if (el.textContent.toLowerCase().includes(term.toLowerCase())) el.classList.add('match'); });
-  }
-
-  renderGantt(""); renderTable("");
-
+  // Initial render
+  document.addEventListener('DOMContentLoaded', () => {
+    zoomVal.textContent = pxPerWeek;
+    renderGantt("");
+    renderTable("");
+    renderMobileCards("");
+  });
 </script>
 </body>
 </html>
